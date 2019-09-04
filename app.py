@@ -16,6 +16,32 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
 
+# Product Class / Model
+class Product(db.Model):
+    id = db.column(db.Integer, primary_key=True)
+    name = db.column(db.String(100), unique=True)
+    description = db.column(db.String(200))
+    price = db.column(db.Float)
+    qty = db.column(db.Integer)
+
+    def __init__(self, name, description, price, qty):
+        self.name = name
+        self.description = description
+        self.price = price
+        self.qty = qty
+
+
+# Product Schema
+class ProductSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'name', 'description', 'price', 'qty')
+
+
+# Init Schema
+product_schema = ProductSchema(strict=True)
+products_schema = ProductSchema(Many=True, strict=True)
+
+
 @app.route('/')
 def hello_world():
     return jsonify({'msg': 'Hello world'})
