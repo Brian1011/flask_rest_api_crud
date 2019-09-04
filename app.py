@@ -7,8 +7,13 @@ import os
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 # Database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join(basedir, 'db.sqlite')
+# mysqli
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join(basedir, 'db.sqlite')
+
+# Mysql
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Admin-17@localhost:3306/flask_rest'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 # Init db
 db = SQLAlchemy(app)
 
