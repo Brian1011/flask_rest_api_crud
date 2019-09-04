@@ -58,6 +58,43 @@ def add_product():
     return product_schema.jsonify(new_product)
 
 
+# Get all products
+@app.route('/product', methods=['GET'])
+def get_products():
+    all_products = Product.query.all()
+    result = products_schema.dump(all_products)
+    return jsonify(result)
+
+
+# Get single product
+@app.route('/product/<id>', methods=['GET'])
+def get_product(id):
+    product = Product.query.get(id)
+    return product_schema.jsonify(product)
+
+# Update a product
+@app.route('/product/<id>', methods=['PUT'])
+def update_product(id):
+    # get the product
+    product = Product.query.get(id)
+
+    # get requests inputs
+    name = request.json['name']
+    description = request.json['description']
+    price = request.json['price']
+    qty = request.json['qty']
+
+    product.name = name
+    product.description = description
+    product.price = price
+    product.qty = qty
+
+    # just commit
+    db.session.commit()
+
+    return product_schema.jsonify(product)
+
+
 @app.route('/')
 def hello_world():
     return jsonify({'msg': 'Hello world'})
