@@ -95,6 +95,15 @@ def update_product(id):
     return product_schema.jsonify(product)
 
 
+# Delete product
+@app.route('/product/<id>', methods=['DELETE'])
+def delete_product(id):
+    product = Product.query.get(id)
+    db.session.delete(product)
+    db.session.commit()
+    return product_schema.jsonify(product)
+
+
 @app.route('/')
 def hello_world():
     return jsonify({'msg': 'Hello world'})
